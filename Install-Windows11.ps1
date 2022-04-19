@@ -31,13 +31,13 @@
     -DownloadURL "https://software-download.microsoft.com/pr/Win11_En
 #> 
 param(
-        [Parameter(Mandatory=$true, HelpMessage="Specify the URL for Windows 11 ISO")]
-        [string]$DownloadURL,
+        [Parameter(Mandatory=$false, HelpMessage="Specify the URL for Windows 11 ISO")]
+        [string]$DownloadURL = "\\file-share\ISO\Windows11.iso",
         [Parameter(Mandatory=$false, HelpMessage="Specify path for the Windows 11 ISO to be downloaded")]
         [ValidateScript({Test-Path $_ -IsValid})]
         [string]$DownloadPath = "C:\windows\temp\win11.iso",
         [Parameter(Mandatory=$false, HelpMessage="Specify Arguments to run with setup.exe")]
-        [string]$Arguments = "/auto upgrade /DynamicUpdate Disable /quiet"
+        [string]$Arguments = "/auto upgrade /DynamicUpdate Disable /eula accept /quiet"
     
 )
 Write-Host "Downloading ISO from $DownloadURL to $DownloadPath"

@@ -37,20 +37,20 @@ param(
         [ValidateScript({Test-Path $_ -IsValid})]
         [string]$DownloadPath = "C:\windows\temp\win11.iso",
         [Parameter(Mandatory=$false, HelpMessage="Specify Arguments to run with setup.exe")]
-        [string]$Arguments = "/auto upgrade /DynamicUpdate Disable /eula accept /quiet"
+        [string]$Arguments = "/auto upgrade /DynamicUpdate Enable /eula accept /quiet"
     
 )
-Write-Host "Downloading ISO from $DownloadURL to $DownloadPath"
+Write-Output "Downloading ISO from $DownloadURL to $DownloadPath"
 $wc = New-Object System.Net.WebClient
 $wc.DownloadFile($DownloadURL, $DownloadPath)
 
-Write-Host "Mounting ISO File"
+Write-Output "Mounting ISO File"
 $vol = Mount-DiskImage -ImagePath $DownloadPath  -PassThru |
     Get-DiskImage | 
     Get-Volume
 $setup = '{0}:\setup.exe' -f $vol.DriveLetter
 
-Write-Host "Starting Windows 11 Upgrade"
+Write-Output "Starting Windows 11 Upgrade"
 Start-Process cmd.exe -Wait -ArgumentList "/c $setup $Arguments"
 
-Write-Host "Finished installing - if errors run without the /quiet command"
+Write-Output "Finished installing - if errors run without the /quiet command"
